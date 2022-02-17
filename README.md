@@ -7,7 +7,7 @@
 [![Code Quality](https://img.shields.io/scrutinizer/quality/g/tuzex/ddd-shared?style=flat-square)](https://scrutinizer-ci.com/g/Tuzex/ddd-shared/?branch=master)
 [![Coverage Status](https://img.shields.io/coveralls/github/Tuzex/ddd-shared?style=flat-square)](https://coveralls.io/github/Tuzex/ddd-shared?branch=master)
 
-A lightweight library for Domain Driven Design (DDD) project in PHP.
+Shared model for Domain Driven Design (DDD) project in PHP
 
 Install
 ------------

@@ -1,6 +1,6 @@
 {
   "name": "tuzex/ddd-shared",
-  "description": "A lightweight library for Domain Driven Design (DDD) project in PHP",
+  "description": "Shared model for Domain Driven Design (DDD) project in PHP",
   "type": "library",
   "license": "MIT",
   "authors": [
