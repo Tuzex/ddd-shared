@@ -1,0 +1,39 @@
+{
+  "name": "tuzex/ddd-shared",
+  "description": "A lightweight library for Domain Driven Design (DDD) project in PHP",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Edo Barnas",
+      "email": "iam@edobarnas.com"
+    }
+  ],
+  "config": {
+    "sort-packages": true,
+    "allow-plugins": {
+      "composer/package-versions-deprecated": true
+    }
+  },
+  "autoload": {
+    "psr-4": {
+      "Tuzex\\Ddd\\Shared\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tuzex\\Ddd\\Shared\\Test\\": "tests/"
+    }
+  },
+  "require": {
+    "php": "^8.1",
+    "tuzex": "0.5.*",
+    "webmozart/assert": "1.10.*"
+  },
+  "require-dev": {
+    "phpstan/phpstan": "1.4.*",
+    "phpstan/phpstan-phpunit": "1.0.*",
+    "phpunit/phpunit": "9.5.*",
+    "symplify/easy-coding-standard": "10.0.*"
+  }
+}
