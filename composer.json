@@ -27,7 +27,6 @@
   },
   "require": {
     "php": "^8.1",
-    "tuzex": "0.5.*",
     "webmozart/assert": "1.10.*"
   },
   "require-dev": {
