@@ -16,9 +16,6 @@ final class MismatchCurrenciesTest extends TestCase
         $money = Money::of(12.34, new Euro());
         $exception = new MismatchCurrencies($money, $money);
 
-        $this->assertSame(
-            'Mathematical operations are allowed for only the same currency (EUR => EUR).',
-            $exception->getMessage(),
-        );
+        $this->assertSame('Mathematical operations are allowed for only the same currency (EUR => EUR).', $exception->getMessage());
     }
 }
