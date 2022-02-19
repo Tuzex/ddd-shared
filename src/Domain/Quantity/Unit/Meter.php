@@ -8,8 +8,8 @@ use Tuzex\Ddd\Shared\Domain\Quantity\MeasureUnit;
 
 final class Meter extends MeasureUnit
 {
-    public static function set(): self
+    public function __construct()
     {
-        return new self('m', 2);
+        parent::__construct('m', 2);
     }
 }

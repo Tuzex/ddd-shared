@@ -8,8 +8,8 @@ use Tuzex\Ddd\Shared\Domain\Quantity\MeasureUnit;
 
 final class Piece extends MeasureUnit
 {
-    public static function set(): self
+    public function __construct()
     {
-        return new self('pc', 0);
+        parent::__construct('pc', 0);
     }
 }

@@ -6,26 +6,19 @@ namespace Tuzex\Ddd\Shared\Domain\Quantity;
 
 abstract class MeasureUnit
 {
-    protected function __construct(
-        private string $symbol,
-        private int $precision,
+    public function __construct(
+        public readonly string $symbol,
+        public readonly int $precision,
     ) {
     }
-
-    abstract public static function set(): self;
 
     public function equals(self $that): bool
     {
         return $this::class === $that::class && $that->symbol === $this->symbol;
     }
 
-    public function symbol(): string
+    public function fractional(): bool
     {
-        return $this->symbol;
-    }
-
-    public function precision(): int
-    {
-        return $this->precision;
+        return 0 < $this->precision;
     }
 }

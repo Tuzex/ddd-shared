@@ -8,8 +8,8 @@ use Tuzex\Ddd\Shared\Domain\Quantity\MeasureUnit;
 
 final class Kilogram extends MeasureUnit
 {
-    public static function set(): self
+    public function __construct()
     {
-        return new self('kg', 4);
+        parent::__construct('kg', 2);
     }
 }

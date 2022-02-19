@@ -8,8 +8,8 @@ use Tuzex\Ddd\Shared\Domain\Quantity\MeasureUnit;
 
 final class Gram extends MeasureUnit
 {
-    public static function set(): self
+    public function __construct()
     {
-        return new self('g', 0);
+        parent::__construct('g', 0);
     }
 }

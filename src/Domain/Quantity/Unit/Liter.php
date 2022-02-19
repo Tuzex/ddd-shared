@@ -8,8 +8,8 @@ use Tuzex\Ddd\Shared\Domain\Quantity\MeasureUnit;
 
 final class Liter extends MeasureUnit
 {
-    public static function set(): self
+    public function __construct()
     {
-        return new self('l', 4);
+        parent::__construct('l', 2);
     }
 }
