@@ -155,28 +155,19 @@ final class QuantityTest extends TestCase
     /**
      * @dataProvider provideDataWithDifferentMeasureUnits
      */
-    public function testItThrowsExceptionWhenCompareDifferentCurrencies(Quantity $minuend, Quantity $subtrahend): void
+    public function testItThrowsExceptionWhenCompareQuantitiesWithDifferentMeasureUnits(Quantity $origin, Quantity $another): void
     {
         $this->expectException(MismatchMeasureUnits::class);
-        $minuend->lessThan($subtrahend);
+        $origin->lessThan($another);
     }
 
     /**
      * @dataProvider provideDataWithDifferentMeasureUnits
      */
-    public function testItThrowsExceptionWhenAddingDifferentCurrencies(Quantity $term, Quantity $addend): void
+    public function testItThrowsExceptionWhenIncreaseByQuantityWithDifferentMeasureUnit(Quantity $origin, Quantity $another): void
     {
         $this->expectException(MismatchMeasureUnits::class);
-        $term->increase($addend);
-    }
-
-    /**
-     * @dataProvider provideDataWithDifferentMeasureUnits
-     */
-    public function testItThrowsExceptionWhenSubtractDifferentCurrencies(Quantity $minuend, Quantity $subtrahend): void
-    {
-        $this->expectException(MismatchMeasureUnits::class);
-        $minuend->decrease($subtrahend);
+        $origin->increase($another);
     }
 
     public function provideDataWithDifferentMeasureUnits(): array
@@ -185,13 +176,13 @@ final class QuantityTest extends TestCase
 
         return [
             'different-measure-units' => [
-                'first' => new Quantity($value, new Meter()),
-                'second' => new Quantity($value, new Liter()),
+                'origin' => new Quantity($value, new Meter()),
+                'another' => new Quantity($value, new Liter()),
             ],
         ];
     }
 
-    public function testItIncreasesQuantityByAnother(): void
+    public function testItIncreasesQuantity(): void
     {
         $term = new Quantity(1, new Piece());
         $addend = new Quantity(1, new Piece());
@@ -201,7 +192,7 @@ final class QuantityTest extends TestCase
         $this->assertSame(2, $sum->amount);
     }
 
-    public function testItDecreasesQuantityByAnother(): void
+    public function testItDecreasesQuantity(): void
     {
         $minuend = new Quantity(2, new Piece());
         $subtrahend = new Quantity(1, new Piece());
