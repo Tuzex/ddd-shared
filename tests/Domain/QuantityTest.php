@@ -38,6 +38,26 @@ final class QuantityTest extends TestCase
     }
 
     /**
+     * @dataProvider provideDataForEquality
+     */
+    public function testItEquals(Quantity $origin, Quantity $another, bool $result): void
+    {
+        $this->assertSame($result, $origin->equals($another));
+    }
+
+    public function provideDataForEquality(): iterable
+    {
+        $circumstances = [
+            'identical-quantities' => [1.00, new Meter(), 1.00, new Meter(), true],
+            'different-amounts' => [1.00, new Meter(), 2.00, new Meter(), false],
+            'different-measure-units' => [1.00, new Meter(), 1.00, new Liter(), false],
+            'different-quantities' => [1.00, new Meter(), 2.00, new Liter(), false],
+        ];
+
+        return $this->generateDataForEquality($circumstances);
+    }
+
+    /**
      * @dataProvider provideDataForComparison
      */
     public function testItIsComparable(Quantity $origin, Quantity $another, bool $result): void
