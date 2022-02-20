@@ -58,6 +58,16 @@ final class Money
         return 0 >= $this->compare($that);
     }
 
+    public function positive(): bool
+    {
+        return 0 < $this->nominalValue->subValue;
+    }
+
+    public function negative(): bool
+    {
+        return ! $this->positive();
+    }
+
     public function add(self $that): self
     {
         if (! $this->comparable($that)) {

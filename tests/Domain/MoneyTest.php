@@ -128,6 +128,33 @@ final class MoneyTest extends TestCase
     }
 
     /**
+     * @dataProvider provideDataToCheck
+     */
+    public function testItChecks(Money $money, array $results): void
+    {
+        $this->assertSame($results['positive'], $money->positive());
+        $this->assertSame($results['negative'], $money->negative());
+    }
+
+    public function provideDataToCheck(): iterable
+    {
+        $circumstances = [
+            'positive' => [1, true, false],
+            'negative' => [-1, false, true],
+        ];
+
+        foreach ($circumstances as $type => $data) {
+            yield $type => [
+                'money' => Money::of($data[0], new Euro()),
+                'results' => [
+                    'positive' => $data[1],
+                    'negative' => $data[2],
+                ],
+            ];
+        }
+    }
+
+    /**
      * @dataProvider provideDataWithDifferentCurrencies
      */
     public function testItThrowsExceptionWhenCompareDifferentCurrencies(Money $minuend, Money $subtrahend): void
