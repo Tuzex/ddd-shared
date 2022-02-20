@@ -96,6 +96,16 @@ final class Money
         return self::ofSub($this->quotient($divisor), $this->currency);
     }
 
+    public function absolute(): self
+    {
+        return self::ofSub(abs($this->nominalValue->subValue), $this->currency);
+    }
+
+    public function opposite(): self
+    {
+        return self::ofSub(-1 * $this->nominalValue->subValue, $this->currency);
+    }
+
     private function compare(self $that): int
     {
         if (! $this->comparable($that)) {

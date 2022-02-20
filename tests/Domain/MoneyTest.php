@@ -273,6 +273,56 @@ final class MoneyTest extends TestCase
         return $this->generateDataForMultiplicationAndDivision($calculations);
     }
 
+    /**
+     * @dataProvider provideDataForAbsoluteTransformation
+     */
+    public function testItTransformsMoneyToAbsoluteMoney(Money $origin, float $result): void
+    {
+        $transformed = $origin->absolute();
+
+        $this->assertSame($result, $transformed->nominalValue->mainValue);
+    }
+
+    public function provideDataForAbsoluteTransformation(): iterable
+    {
+        $circumstances = [
+            'positive-to-absolute' => [1, 1.00],
+            'negative-to-absolute' => [-1, 1.00],
+        ];
+
+        foreach ($circumstances as $type => $data) {
+            yield $type => [
+                'origin' => Money::of($data[0], new Euro()),
+                'result' => $data[1],
+            ];
+        }
+    }
+
+    /**
+     * @dataProvider provideDataForOppositeTransformation
+     */
+    public function testItTransformsMoneyToOppositeMoney(Money $origin, float $result): void
+    {
+        $transformed = $origin->opposite();
+
+        $this->assertSame($result, $transformed->nominalValue->mainValue);
+    }
+
+    public function provideDataForOppositeTransformation(): iterable
+    {
+        $circumstances = [
+            'positive-to-opposite' => [1, -1.00],
+            'negative-to-opposite' => [-1, 1.00],
+        ];
+
+        foreach ($circumstances as $type => $data) {
+            yield $type => [
+                'origin' => Money::of($data[0], new Euro()),
+                'result' => $data[1],
+            ];
+        }
+    }
+
     private function generateDataForEquality(array $circumstances): iterable
     {
         foreach ($circumstances as $type => $data) {
