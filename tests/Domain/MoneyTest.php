@@ -145,7 +145,7 @@ final class MoneyTest extends TestCase
 
         foreach ($circumstances as $type => $data) {
             yield $type => [
-                'money' => Money::of($data[0], new Euro()),
+                'money' => new Money($data[0], new Euro()),
                 'results' => [
                     'positive' => $data[1],
                     'negative' => $data[2],
@@ -187,8 +187,8 @@ final class MoneyTest extends TestCase
 
         return [
             'different-currencies' => [
-                'first' => Money::of($value, new Euro()),
-                'second' => Money::of($value, new UsDollar()),
+                'first' => new Money($value, new Euro()),
+                'second' => new Money($value, new UsDollar()),
             ],
         ];
     }
@@ -198,7 +198,7 @@ final class MoneyTest extends TestCase
      */
     public function testItAddsUpMonies(Money $term, Money $addend, float $sum): void
     {
-        $this->assertSame($sum, $term->add($addend)->nominalValue->mainValue);
+        $this->assertSame($sum, $term->add($addend)->amountInMainUnit());
     }
 
     public function provideDataForAddition(): iterable
@@ -218,7 +218,7 @@ final class MoneyTest extends TestCase
      */
     public function testItSubtractsMonies(Money $minuend, Money $subtrahend, float $difference): void
     {
-        $this->assertSame($difference, $minuend->subtract($subtrahend)->nominalValue->mainValue);
+        $this->assertSame($difference, $minuend->subtract($subtrahend)->amountInMainUnit());
     }
 
     public function provideDataForSubtraction(): iterable
@@ -238,7 +238,7 @@ final class MoneyTest extends TestCase
      */
     public function testItMultipliesMonies(Money $multiplier, float $multiplicand, float $product): void
     {
-        $this->assertSame($product, $multiplier->multiply($multiplicand)->nominalValue->mainValue);
+        $this->assertSame($product, $multiplier->multiply($multiplicand)->amountInMainUnit());
     }
 
     public function provideDataForMultiplication(): iterable
@@ -258,7 +258,7 @@ final class MoneyTest extends TestCase
      */
     public function testItDivisionsMonies(Money $dividend, float $divisor, float $quotient): void
     {
-        $this->assertSame($quotient, $dividend->divide($divisor)->nominalValue->mainValue);
+        $this->assertSame($quotient, $dividend->divide($divisor)->amountInMainUnit());
     }
 
     public function provideDataForDivision(): iterable
@@ -280,7 +280,7 @@ final class MoneyTest extends TestCase
     {
         $transformed = $origin->absolute();
 
-        $this->assertSame($result, $transformed->nominalValue->mainValue);
+        $this->assertSame($result, $transformed->amountInMainUnit());
     }
 
     public function provideDataForAbsoluteTransformation(): iterable
@@ -292,7 +292,7 @@ final class MoneyTest extends TestCase
 
         foreach ($circumstances as $type => $data) {
             yield $type => [
-                'origin' => Money::of($data[0], new Euro()),
+                'origin' => new Money($data[0], new Euro()),
                 'result' => $data[1],
             ];
         }
@@ -305,7 +305,7 @@ final class MoneyTest extends TestCase
     {
         $transformed = $origin->opposite();
 
-        $this->assertSame($result, $transformed->nominalValue->mainValue);
+        $this->assertSame($result, $transformed->amountInMainUnit());
     }
 
     public function provideDataForOppositeTransformation(): iterable
@@ -317,7 +317,7 @@ final class MoneyTest extends TestCase
 
         foreach ($circumstances as $type => $data) {
             yield $type => [
-                'origin' => Money::of($data[0], new Euro()),
+                'origin' => new Money($data[0], new Euro()),
                 'result' => $data[1],
             ];
         }
@@ -327,8 +327,8 @@ final class MoneyTest extends TestCase
     {
         foreach ($circumstances as $type => $data) {
             yield $type => [
-                'origin' => Money::of($data[0], $data[1]),
-                'another' => Money::of($data[2], $data[3]),
+                'origin' => new Money($data[0], $data[1]),
+                'another' => new Money($data[2], $data[3]),
                 'result' => $data[4],
             ];
         }
@@ -345,8 +345,8 @@ final class MoneyTest extends TestCase
 
         foreach ($circumstances as $type => $data) {
             yield $type => [
-                'origin' => Money::of($data[0], $currency),
-                'another' => Money::of($data[1], $currency),
+                'origin' => new Money($data[0], $currency),
+                'another' => new Money($data[1], $currency),
                 'result' => $results[$type],
             ];
         }
@@ -358,8 +358,8 @@ final class MoneyTest extends TestCase
 
         foreach ($calculations as $type => $data) {
             yield $type => [
-                'first' => Money::of($data[0], $currency),
-                'second' => Money::of($data[1], $currency),
+                'first' => new Money($data[0], $currency),
+                'second' => new Money($data[1], $currency),
                 'result' => $data[2],
             ];
         }
@@ -369,7 +369,7 @@ final class MoneyTest extends TestCase
     {
         foreach ($calculations as $type => $data) {
             yield $type => [
-                'first' => Money::of($data[0], new Euro()),
+                'first' => new Money($data[0], new Euro()),
                 'second' => $data[1],
                 'result' => $data[2],
             ];

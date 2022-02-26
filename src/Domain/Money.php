@@ -6,26 +6,24 @@ namespace Tuzex\Ddd\Shared\Domain;
 
 use Tuzex\Ddd\Shared\Domain\Money\Currency;
 use Tuzex\Ddd\Shared\Domain\Money\MismatchCurrencies;
-use Tuzex\Ddd\Shared\Domain\Money\NominalValue;
 
 final class Money
 {
-    private function __construct(
-        public readonly NominalValue $nominalValue,
-        public readonly Currency $currency,
-    ) {}
+    public readonly Currency $currency;
 
-    public static function of(float $value, Currency $currency): self
+    private float $amountInMainUnit;
+    private int $amountInSubUnit;
+
+    public function __construct(int|float $amount, Currency $currency)
     {
-        $main = round($value, $currency->precision());
-        $sub = intval($main * $currency->fraction());
-
-        return self::ofSub($sub, $currency);
+        $this->amountInSubUnit = intval($amount * $currency->fraction());
+        $this->amountInMainUnit = floatval($this->amountInSubUnit / $currency->fraction());
+        $this->currency = $currency;
     }
 
-    public static function ofSub(int $value, Currency $currency): self
+    public static function ofSub(int $amount, Currency $currency): self
     {
-        return new self(NominalValue::set($value, $currency), $currency);
+        return new self($amount / $currency->fraction(), $currency);
     }
 
     public function comparable(self $that): bool
@@ -35,7 +33,7 @@ final class Money
 
     public function equals(self $that): bool
     {
-        return $this->comparable($that) && $this->nominalValue->equals($that->nominalValue);
+        return $this->comparable($that) && $this->amountInSubUnit() === $that->amountInSubUnit();
     }
 
     public function greaterThan(self $that): bool
@@ -60,7 +58,7 @@ final class Money
 
     public function positive(): bool
     {
-        return 0 < $this->nominalValue->subValue;
+        return 0 < $this->amountInSubUnit();
     }
 
     public function negative(): bool
@@ -74,7 +72,7 @@ final class Money
             throw new MismatchCurrencies($this, $that);
         }
 
-        return self::ofSub($this->sum($that->nominalValue), $this->currency);
+        return self::ofSub($this->sum($that), $this->currency);
     }
 
     public function subtract(self $that): self
@@ -83,7 +81,7 @@ final class Money
             throw new MismatchCurrencies($this, $that);
         }
 
-        return self::ofSub($this->diff($that->nominalValue), $this->currency);
+        return self::ofSub($this->diff($that), $this->currency);
     }
 
     public function multiply(int | float $factor): self
@@ -98,12 +96,26 @@ final class Money
 
     public function absolute(): self
     {
-        return self::ofSub(abs($this->nominalValue->subValue), $this->currency);
+        return self::ofSub(abs($this->amountInSubUnit()), $this->currency);
     }
 
     public function opposite(): self
     {
-        return self::ofSub(-1 * $this->nominalValue->subValue, $this->currency);
+        return self::ofSub(-1 * $this->amountInSubUnit(), $this->currency);
+    }
+
+    public function amountInMainUnit(): float
+    {
+        return $this->amountInMainUnit;
+    }
+
+    public function amountInSubUnit(): int
+    {
+        if (! $this->amountInSubUnit) {
+            $this->amountInSubUnit = intval($this->amountInMainUnit * $this->currency->fraction());
+        }
+
+        return $this->amountInSubUnit;
     }
 
     private function compare(self $that): int
@@ -112,26 +124,26 @@ final class Money
             throw new MismatchCurrencies($this, $that);
         }
 
-        return $this->nominalValue->compare($that->nominalValue);
+        return $this->amountInSubUnit() <=> $that->amountInSubUnit();
     }
 
-    private function sum(NominalValue $that): int
+    private function sum(self $that): int
     {
-        return $this->nominalValue->subValue + $that->subValue;
+        return $this->amountInSubUnit() + $that->amountInSubUnit();
     }
 
-    private function diff(NominalValue $that): int
+    private function diff(self $that): int
     {
-        return $this->nominalValue->subValue - $that->subValue;
+        return $this->amountInSubUnit() - $that->amountInSubUnit();
     }
 
     private function product(int | float $factor): int
     {
-        return intval(round($this->nominalValue->subValue * $factor, 0));
+        return intval(round($this->amountInSubUnit() * $factor, 0));
     }
 
     private function quotient(int | float $divisor): int
     {
-        return intval(round($this->nominalValue->subValue / $divisor, 0));
+        return intval(round($this->amountInSubUnit() / $divisor, 0));
     }
 }

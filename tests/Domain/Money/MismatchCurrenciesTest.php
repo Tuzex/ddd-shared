@@ -13,7 +13,7 @@ final class MismatchCurrenciesTest extends TestCase
 {
     public function testItReturnsSpecificMessage(): void
     {
-        $money = Money::of(12.34, new Euro());
+        $money = new Money(12.34, new Euro());
         $exception = new MismatchCurrencies($money, $money);
 
         $this->assertSame('Mathematical operations are allowed for only the same currency (EUR => EUR).', $exception->getMessage());
