@@ -6,7 +6,7 @@ namespace Tuzex\Ddd\Shared\Domain\Money;
 
 use Webmozart\Assert\Assert;
 
-final class SubUnit
+final class FractionalUnit
 {
     public function __construct(
         public readonly string $code,

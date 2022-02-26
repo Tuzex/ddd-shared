@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Tuzex\Ddd\Shared\Domain\Money\Currency;
 
 use Tuzex\Ddd\Shared\Domain\Money\Currency;
+use Tuzex\Ddd\Shared\Domain\Money\FractionalUnit;
 use Tuzex\Ddd\Shared\Domain\Money\MainUnit;
-use Tuzex\Ddd\Shared\Domain\Money\SubUnit;
 
 final class Euro extends Currency
 {
@@ -14,7 +14,7 @@ final class Euro extends Currency
     {
         parent::__construct(
             new MainUnit('EUR', '€'),
-            new SubUnit('cent', 'c', 100),
+            new FractionalUnit('cent', 'c', 100),
         );
     }
 }

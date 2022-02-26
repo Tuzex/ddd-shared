@@ -8,12 +8,12 @@ abstract class Currency
 {
     public function __construct(
         public readonly MainUnit $mainUnit,
-        public readonly SubUnit $subUnit,
+        public readonly FractionalUnit $fractionalUnit,
     ) {}
 
     public function equals(self $that): bool
     {
-        return $this->mainUnit->equals($that->mainUnit) && $this->subUnit->equals($that->subUnit);
+        return $this->mainUnit->equals($that->mainUnit) && $this->fractionalUnit->equals($that->fractionalUnit);
     }
 
     public function code(): string
@@ -23,11 +23,11 @@ abstract class Currency
 
     public function fraction(): int
     {
-        return $this->subUnit->fraction;
+        return $this->fractionalUnit->fraction;
     }
 
     public function precision(): int
     {
-        return $this->subUnit->precision();
+        return $this->fractionalUnit->precision();
     }
 }

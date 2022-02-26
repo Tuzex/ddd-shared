@@ -5,21 +5,21 @@ declare(strict_types=1);
 namespace Tuzex\Ddd\Shared\Test\Domain\Money;
 
 use PHPUnit\Framework\TestCase;
-use Tuzex\Ddd\Shared\Domain\Money\SubUnit;
+use Tuzex\Ddd\Shared\Domain\Money\FractionalUnit;
 use Webmozart\Assert\InvalidArgumentException;
 
-final class SubUnitTest extends TestCase
+final class FractionalUnitTest extends TestCase
 {
     /**
      * @dataProvider provideValidCurrencies
      */
     public function testsItReturnsValidParameters(string $code, string $symbol, int $fraction): void
     {
-        $subUnit = new SubUnit($code, $symbol, $fraction);
+        $fractionalUnit = new FractionalUnit($code, $symbol, $fraction);
 
-        $this->assertSame($code, $subUnit->code);
-        $this->assertSame($symbol, $subUnit->symbol);
-        $this->assertSame($fraction, $subUnit->fraction);
+        $this->assertSame($code, $fractionalUnit->code);
+        $this->assertSame($symbol, $fractionalUnit->symbol);
+        $this->assertSame($fraction, $fractionalUnit->fraction);
     }
 
     public function provideValidCurrencies(): array
@@ -37,7 +37,7 @@ final class SubUnitTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
 
-        new SubUnit($code, $symbol, $fraction);
+        new FractionalUnit($code, $symbol, $fraction);
     }
 
     public function provideInvalidCurrencies(): array
