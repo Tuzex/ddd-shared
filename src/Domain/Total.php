@@ -14,17 +14,17 @@ final class Total
     ) {
     }
 
-    public static function zero(Currency $currency = new Euro): self
+    public static function zero(Currency $currency = new Euro()): self
     {
-        return new self(Money::of(0, $currency));
+        return new self(new Money(0, $currency));
     }
 
-    public function increase(Money $addend): Total
+    public function increase(Money $addend): self
     {
         return new self($this->value->add($addend));
     }
 
-    public function decrease(Money $subtrahend): Total
+    public function decrease(Money $subtrahend): self
     {
         return new self($this->value->subtract($subtrahend));
     }
