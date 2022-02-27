@@ -17,7 +17,7 @@ final class Quantity
         int|float $amount,
         public readonly MeasureUnit $measureUnit
     ) {
-        Assert::greaterThan($amount, 0, 'Quantity must by greater than zero, "%s" given');
+        Assert::greaterThanEq($amount, 0, 'Quantity must by greater or equal than zero, "%s" given');
 
         $this->amount = $this->measureUnit->fractional() ? round(floatval($amount), $this->measureUnit->precision) : intval($amount);
     }
@@ -25,6 +25,11 @@ final class Quantity
     public function equals(self $that): bool
     {
         return $this->amount === $that->amount && $this->measureUnit->equals($that->measureUnit);
+    }
+
+    public function zero(): bool
+    {
+        return 0 === $this->amount;
     }
 
     public function comparable(self $that): bool
